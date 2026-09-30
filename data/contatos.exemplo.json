@@ -71,6 +71,20 @@
       "telefone": "+55 67 90000-0000"
     },
     {
+      "nome": "Contato SES 3",
+      "orgao": "SES",
+      "icone": "user",
+      "assunto": "Ponto focal titular da Secretaria de Saúde.",
+      "email": "ses3@exemplo.ms.gov.br"
+    },
+    {
+      "nome": "Contato SES 4",
+      "orgao": "SES",
+      "icone": "user",
+      "assunto": "Ponto focal suplente da Secretaria de Saúde.",
+      "email": "ses4@exemplo.ms.gov.br"
+    },
+    {
       "nome": "Contato 3",
       "orgao": "DETRAN",
       "icone": "building",
