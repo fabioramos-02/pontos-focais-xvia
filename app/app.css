@@ -1,0 +1,66 @@
+/* Camada da aplicação: só layout e composição. Cor, fonte, raio e espaço vêm dos tokens do DS. */
+/* Ordem canônica repetida aqui: se este arquivo carregar antes do CSS crítico, "app" continua por cima. */
+@layer ds.primitives, ds.semantic, ds.theme, app;
+
+@layer app {
+  body {
+    margin: 0;
+    background: var(--ds-color-surface);
+    color: var(--ds-color-text-default);
+    font-family: var(--ds-font-family-sans);
+  }
+
+  .wrap {
+    width: min(72rem, 100% - 2 * var(--ds-space-4));
+    margin-inline: auto;
+  }
+
+  .section {
+    padding-block: var(--ds-space-8);
+  }
+  .section--muted {
+    background: var(--ds-color-surface-muted);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ds-space-3);
+    color: var(--ds-color-brand-fg);
+    line-height: 1.1;
+  }
+  .brand small {
+    display: block;
+    font-size: var(--ds-text-tiny-size);
+    opacity: 0.85;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--ds-space-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
+    margin-top: var(--ds-space-5);
+  }
+
+  .passos {
+    margin-top: var(--ds-space-7);
+  }
+
+  .pessoas {
+    margin: 0;
+    padding-left: var(--ds-space-5);
+    line-height: var(--ds-text-body-large-line-height);
+  }
+
+  .muted {
+    color: var(--ds-color-text-muted);
+  }
+  .email {
+    overflow-wrap: anywhere;
+    font-size: var(--ds-text-body-small-size);
+  }
+  .fonte {
+    padding-block: var(--ds-space-5);
+    font-size: var(--ds-text-body-small-size);
+  }
+}

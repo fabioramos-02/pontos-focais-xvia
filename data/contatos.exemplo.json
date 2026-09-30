@@ -1,0 +1,71 @@
+{
+  "atualizado": "30/09/2026",
+  "observadores": [
+    {
+      "nome": "Pessoa 1",
+      "email": "pessoa1@exemplo.ms.gov.br"
+    },
+    {
+      "nome": "Pessoa 2",
+      "email": "pessoa2@exemplo.ms.gov.br"
+    },
+    {
+      "nome": "Pessoa 3",
+      "email": "pessoa3@exemplo.ms.gov.br"
+    },
+    {
+      "nome": "Pessoa 4",
+      "email": "pessoa4@exemplo.ms.gov.br"
+    }
+  ],
+  "filas": [
+    {
+      "nome": "Banco de dados (DBA)",
+      "icone": "file-text",
+      "quando": "Acesso a banco, rodar script, consulta, backup ou restauração.",
+      "email": "fila-exemplo@fazenda.ms.gov.br"
+    },
+    {
+      "nome": "Infraestrutura",
+      "icone": "building",
+      "quando": "Servidor, ambiente, publicação (deploy), DNS ou certificado.",
+      "email": "fila-exemplo@fazenda.ms.gov.br"
+    },
+    {
+      "nome": "VPN",
+      "icone": "shield",
+      "quando": "Liberar ou renovar acesso remoto à rede do governo.",
+      "email": "fila-exemplo@fazenda.ms.gov.br"
+    },
+    {
+      "nome": "MS Digital",
+      "icone": "smartphone",
+      "quando": "Portal e aplicativo MS Digital.",
+      "email": "fila-exemplo@fazenda.ms.gov.br"
+    }
+  ],
+  "focais": [
+    {
+      "nome": "Contato 1",
+      "orgao": "SES",
+      "icone": "medkit",
+      "assunto": "Assuntos da Secretaria de Saúde.",
+      "telefone": "+55 67 90000-0000"
+    },
+    {
+      "nome": "Contato 2",
+      "orgao": "SES",
+      "icone": "globe",
+      "assunto": "Redes da Secretaria de Saúde.",
+      "telefone": "+55 67 90000-0000"
+    },
+    {
+      "nome": "Contato 3",
+      "orgao": "DETRAN",
+      "icone": "car",
+      "assunto": "Assuntos do DETRAN.",
+      "telefone": "+55 67 90000-0000"
+    }
+  ],
+  "mattermost": "https://chat.exemplo.ms.gov.br"
+}
