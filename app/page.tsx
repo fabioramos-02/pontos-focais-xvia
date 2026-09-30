@@ -16,8 +16,12 @@ Contato de quem pediu (nome e telefone):
 `;
 
 // ponytail: mailto tem limite de ~2000 caracteres; o modelo é curto de propósito
-const mailto = (f: Fila) =>
-  `mailto:${f.email}?cc=${cc}&subject=${encodeURIComponent(`[XVIA] ${f.nome} — `)}&body=${encodeURIComponent(CORPO)}`;
+const mailto = (para: string, assunto: string, corpo: string) =>
+  `mailto:${para}?cc=${cc}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
+const pedido = (f: Fila) => mailto(f.email!, `[XVIA] ${f.nome} — `, CORPO);
+
+const GLPI = "https://suporte.ms.gov.br/";
 
 const whatsapp = (telefone: string) => `https://wa.me/${telefone.replace(/\D/g, "")}`;
 
@@ -42,6 +46,15 @@ const ACESSOS = [
   "Sistemas específicos do órgão",
   "Outros ambientes que o trabalho exigir",
 ];
+
+const CORPO_ACESSO = `Olá,
+
+Dados do colaborador:
+${DADOS.map((d) => `- ${d}: `).join("\n")}
+
+Acessos necessários (informados pelo gestor do projeto):
+${ACESSOS.map((a) => `- ${a}: sim / não`).join("\n")}
+`;
 
 const PASSOS = JSON.stringify([
   { title: "Escolha o assunto", description: "Veja abaixo qual equipe cuida do que você precisa." },
@@ -88,16 +101,40 @@ export default function Pagina() {
           <p className="muted">O e-mail enviado para a equipe abre um chamado no suporte.ms.gov.br.</p>
           <div className="grid">
             {c.filas.map((f) => (
-              <DsCard key={f.email} heading={f.nome} headingLevel="3" icon={f.icone}>
+              <DsCard key={f.grupo} heading={f.nome} headingLevel="3" icon={f.icone}>
+                <DsBadge tone="neutral" size="sm">Grupo no GLPI: {f.grupo}</DsBadge>
                 <p>{f.quando}</p>
-                <p className="muted email">{f.email}</p>
+                {f.email && <p className="muted email">{f.email}</p>}
                 <div slot="footer" className="acoes">
-                  <DsButton href={mailto(f)} icon="mail" variant="primary" fullWidth>
-                    Abrir pedido
-                  </DsButton>
+                  {f.email ? (
+                    <DsButton href={pedido(f)} icon="mail" variant="primary" fullWidth>
+                      Abrir pedido
+                    </DsButton>
+                  ) : (
+                    <DsButton href={f.link} icon="arrow-right" iconPosition="end" variant="secondary" fullWidth>
+                      Ver como pedir
+                    </DsButton>
+                  )}
                 </div>
               </DsCard>
             ))}
+          </div>
+
+          <div className="glpi">
+            <DsCard heading="Vai abrir o chamado direto no GLPI?" headingLevel="3" icon="info" tone="info">
+              <p>
+                O e-mail para a equipe já vira chamado sozinho. Se alguém com acesso abrir o chamado direto no{" "}
+                <a href={GLPI} target="_blank" rel="noopener">suporte.ms.gov.br</a>, preencha os 3 campos de <strong>Atores</strong>:
+              </p>
+              <dl className="atores">
+                <dt>Requerente</dt>
+                <dd>Quem está pedindo.</dd>
+                <dt>Observador</dt>
+                <dd>As 4 pessoas da regra: {c.observadores.map((o) => o.nome.split(" ")[0]).join(", ")}.</dd>
+                <dt>Atribuído</dt>
+                <dd>O grupo da equipe: {c.filas.map((f) => f.grupo).join(", ")}.</dd>
+              </dl>
+            </DsCard>
           </div>
         </div>
       </section>
@@ -123,12 +160,15 @@ export default function Pagina() {
             </DsCard>
             <DsCard heading="3. Para quem enviar" headingLevel="3" icon="mail" tone="info">
               <p>
-                Envie tudo para a <strong>Andréia</strong>, secretária do time de desenvolvimento coordenado pelo
-                <strong> Sandro</strong>.
+                Envie tudo para <strong>{c.acessos.nome}</strong>.
               </p>
-              <p className="muted">
-                CPF, telefone e e-mail pessoal são dados pessoais. Envie só por e-mail, nunca em grupo de conversa.
-              </p>
+              <p className="muted email">{c.acessos.email}</p>
+              <p>O botão abre o e-mail com a lista pronta para preencher.</p>
+              <div slot="footer" className="acoes">
+                <DsButton href={mailto(c.acessos.email, "[XVIA] Acesso para novo colaborador — ", CORPO_ACESSO)} icon="mail" variant="primary" fullWidth>
+                  Enviar pedido de acesso
+                </DsButton>
+              </div>
             </DsCard>
           </div>
         </div>

@@ -23,25 +23,36 @@
       "nome": "Banco de dados (DBA)",
       "icone": "file-text",
       "quando": "Acesso a banco, rodar script, consulta, backup ou restauração.",
-      "email": "fila-exemplo@fazenda.ms.gov.br"
+      "email": "fila-exemplo@fazenda.ms.gov.br",
+      "grupo": "DBA"
     },
     {
       "nome": "Infraestrutura",
       "icone": "building",
       "quando": "Servidor, ambiente, publicação (deploy), DNS ou certificado.",
-      "email": "fila-exemplo@fazenda.ms.gov.br"
+      "email": "fila-exemplo@fazenda.ms.gov.br",
+      "grupo": "EAST"
     },
     {
-      "nome": "VPN",
+      "nome": "Segurança e VPN",
       "icone": "shield",
-      "quando": "Liberar ou renovar acesso remoto à rede do governo.",
-      "email": "fila-exemplo@fazenda.ms.gov.br"
+      "quando": "Liberar ou renovar VPN e outros assuntos de segurança.",
+      "email": "fila-exemplo@fazenda.ms.gov.br",
+      "grupo": "ESST"
     },
     {
       "nome": "MS Digital",
       "icone": "smartphone",
       "quando": "Portal e aplicativo MS Digital.",
-      "email": "fila-exemplo@fazenda.ms.gov.br"
+      "email": "fila-exemplo@fazenda.ms.gov.br",
+      "grupo": "G09"
+    },
+    {
+      "nome": "Cadastro (primeiro acesso)",
+      "icone": "id-card",
+      "grupo": "Cadastro",
+      "quando": "Criar usuário e liberar acessos para colaborador novo da fábrica.",
+      "link": "#acessos"
     }
   ],
   "focais": [
@@ -74,5 +85,9 @@
       "email": "contato4@exemplo.com.br"
     }
   ],
-  "mattermost": "https://chat.exemplo.ms.gov.br"
+  "mattermost": "https://chat.exemplo.ms.gov.br",
+  "acessos": {
+    "nome": "Pessoa do cadastro",
+    "email": "cadastro@exemplo.ms.gov.br"
+  }
 }

@@ -57,6 +57,26 @@
     width: 100%;
   }
 
+  .glpi {
+    margin-top: var(--ds-space-6);
+  }
+  .atores {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--ds-space-2) var(--ds-space-4);
+    margin: var(--ds-space-3) 0 0;
+  }
+  .atores dt {
+    font-weight: var(--ds-font-weight-semibold);
+  }
+  .atores dd {
+    margin: 0;
+  }
+  .atores a,
+  .glpi a {
+    color: var(--ds-color-link);
+  }
+
   .lista {
     margin: 0;
     padding-left: var(--ds-space-5);

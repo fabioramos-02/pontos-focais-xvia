@@ -3,10 +3,11 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 export type Pessoa = { nome: string; email: string };
-export type Fila = { nome: string; icone: string; quando: string; email: string };
+// fila sem e-mail (ex.: Cadastro) aponta para uma seção da página via link
+export type Fila = { nome: string; icone: string; grupo: string; quando: string; email?: string; link?: string };
 // ponto focal tem telefone (WhatsApp), e-mail ou os dois
 export type Focal = { nome: string; orgao: string; icone: string; assunto: string; telefone?: string; email?: string };
-export type Contatos = { atualizado: string; observadores: Pessoa[]; filas: Fila[]; focais: Focal[]; mattermost: string };
+export type Contatos = { atualizado: string; observadores: Pessoa[]; filas: Fila[]; focais: Focal[]; acessos: Pessoa; mattermost: string };
 
 const real = join(process.cwd(), "data", "contatos.json");
 const file = existsSync(real) ? real : join(process.cwd(), "data", "contatos.exemplo.json");
