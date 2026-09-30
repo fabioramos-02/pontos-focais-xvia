@@ -85,6 +85,13 @@
       "email": "contato4@exemplo.com.br"
     },
     {
+      "nome": "Contato diretor",
+      "orgao": "DETRAN",
+      "icone": "briefcase",
+      "assunto": "Diretor do DETRAN.",
+      "email": "diretor@exemplo.ms.gov.br"
+    },
+    {
       "nome": "Contato SED 1",
       "orgao": "SED",
       "icone": "book",

@@ -1,8 +1,21 @@
 // Server Component: tudo sai pronto no HTML, nada vai para o JS do cliente
-import { DsBadge, DsButton, DsCard, DsPageHeader, DsSectionHeading, DsSteps } from "@plataforma-xvia/ds-react/server";
+import { DsBadge, DsButton, DsCard, DsCarousel, DsPageHeader, DsSectionHeading, DsSteps } from "@plataforma-xvia/ds-react/server";
 import { contatos as c, type Fila } from "./contatos";
 
 const cc = c.observadores.map((o) => o.email).join(",");
+
+// quem recebe o pedido de acesso não precisa estar em cópia de novo por outro e-mail
+const ccAcesso = c.observadores
+  .filter((o) => !c.acessos.semCopia?.includes(o.email))
+  .map((o) => o.email)
+  .join(",");
+
+const orgaos = [...new Set(c.focais.map((p) => p.orgao))];
+
+// filtro só com CSS: o radio marcado esconde os slides das outras secretarias
+const FILTRO_CSS = orgaos
+  .map((o) => `.focais:has(input[value="${o}"]:checked) [data-orgao]:not([data-orgao="${o}"]){display:none}`)
+  .join("");
 
 const CORPO = `Olá,
 
@@ -16,8 +29,8 @@ Contato de quem pediu (nome e telefone):
 `;
 
 // ponytail: mailto tem limite de ~2000 caracteres; o modelo é curto de propósito
-const mailto = (para: string, assunto: string, corpo: string) =>
-  `mailto:${para}?cc=${cc}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+const mailto = (para: string, assunto: string, corpo: string, copia = cc) =>
+  `mailto:${para}?cc=${copia}&subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
 
 const pedido = (f: Fila) => mailto(f.email!, `[XVIA] ${f.nome} — `, CORPO);
 
@@ -55,6 +68,13 @@ ${DADOS.map((d) => `- ${d}: `).join("\n")}
 Acessos necessários (informados pelo gestor do projeto):
 ${ACESSOS.map((a) => `- ${a}: sim / não`).join("\n")}
 `;
+
+// o carrossel só recalcula as setas ao rolar: depois de filtrar, volta ao início e avisa
+const AVISA_CARROSSEL = `document.addEventListener("change", (e) => {
+  if (e.target.name !== "orgao") return;
+  const t = e.target.closest(".focais").querySelector(".carousel__track");
+  if (t) { t.scrollLeft = 0; t.dispatchEvent(new Event("scroll")); }
+});`;
 
 const PASSOS = JSON.stringify([
   { title: "Escolha o assunto", description: "Veja abaixo qual equipe cuida do que você precisa." },
@@ -99,25 +119,29 @@ export default function Pagina() {
         <div className="wrap">
           <DsSectionHeading heading="Pedidos de TI" headingLevel="2" />
           <p className="muted">O e-mail enviado para a equipe abre um chamado no suporte.ms.gov.br.</p>
-          <div className="grid">
-            {c.filas.map((f) => (
-              <DsCard key={f.grupo} heading={f.nome} headingLevel="3" icon={f.icone}>
-                <DsBadge tone="neutral" size="sm">Grupo no GLPI: {f.grupo}</DsBadge>
-                <p>{f.quando}</p>
-                {f.email && <p className="muted email">{f.email}</p>}
-                <div slot="footer" className="acoes">
-                  {f.email ? (
-                    <DsButton href={pedido(f)} icon="mail" variant="primary" fullWidth>
-                      Abrir pedido
-                    </DsButton>
-                  ) : (
-                    <DsButton href={f.link} icon="arrow-right" iconPosition="end" variant="secondary" fullWidth>
-                      Ver como pedir
-                    </DsButton>
-                  )}
+          <div className="trilha">
+            <DsCarousel label="Pedidos de TI" itemWidth="17rem" prevLabel="Anteriores" nextLabel="Próximos">
+              {c.filas.map((f) => (
+                <div key={f.grupo} className="slide">
+                  <DsCard heading={f.nome} headingLevel="3" icon={f.icone}>
+                    <DsBadge tone="neutral" size="sm">Grupo no GLPI: {f.grupo}</DsBadge>
+                    <p>{f.quando}</p>
+                    {f.email && <p className="muted email">{f.email}</p>}
+                    <div slot="footer" className="acoes">
+                      {f.email ? (
+                        <DsButton href={pedido(f)} icon="mail" variant="primary" fullWidth>
+                          Abrir pedido
+                        </DsButton>
+                      ) : (
+                        <DsButton href={f.link} icon="arrow-right" iconPosition="end" variant="secondary" fullWidth>
+                          Ver como pedir
+                        </DsButton>
+                      )}
+                    </div>
+                  </DsCard>
                 </div>
-              </DsCard>
-            ))}
+              ))}
+            </DsCarousel>
           </div>
 
           <div className="glpi">
@@ -165,7 +189,7 @@ export default function Pagina() {
               <p className="muted email">{c.acessos.email}</p>
               <p>O botão abre o e-mail com a lista pronta para preencher.</p>
               <div slot="footer" className="acoes">
-                <DsButton href={mailto(c.acessos.email, "[XVIA] Acesso para novo colaborador — ", CORPO_ACESSO)} icon="mail" variant="primary" fullWidth>
+                <DsButton href={mailto(c.acessos.email, "[XVIA] Acesso para novo colaborador — ", CORPO_ACESSO, ccAcesso)} icon="mail" variant="primary" fullWidth>
                   Enviar pedido de acesso
                 </DsButton>
               </div>
@@ -178,26 +202,41 @@ export default function Pagina() {
         <div className="wrap">
           <DsSectionHeading heading="Pontos focais das secretarias" headingLevel="2" />
           <p className="muted">Fale direto com a pessoa responsável pelo assunto.</p>
-          <div className="grid">
-            {c.focais.map((p) => (
-              <DsCard key={p.nome} heading={p.nome} headingLevel="3" icon={p.icone}>
-                <DsBadge tone="primary" size="sm">{p.orgao}</DsBadge>
-                <p>{p.assunto}</p>
-                <p className="muted email">{p.telefone ?? p.email}</p>
-                <div slot="footer" className="acoes">
-                  {p.telefone && (
-                    <DsButton href={whatsapp(p.telefone)} target="_blank" rel="noopener" icon="whatsapp" variant="success" fullWidth>
-                      Chamar no WhatsApp
-                    </DsButton>
-                  )}
-                  {p.email && (
-                    <DsButton href={`mailto:${p.email}?cc=${cc}`} icon="mail" variant="secondary" fullWidth>
-                      Enviar e-mail
-                    </DsButton>
-                  )}
+          <div className="focais">
+            <fieldset className="filtro">
+              <legend>Filtrar por secretaria</legend>
+              {["Todas", ...orgaos].map((o, i) => (
+                <label key={o} className="chip">
+                  <input type="radio" name="orgao" value={o} defaultChecked={i === 0} />
+                  {o} <span className="chip__n">{o === "Todas" ? c.focais.length : c.focais.filter((p) => p.orgao === o).length}</span>
+                </label>
+              ))}
+            </fieldset>
+            <style>{FILTRO_CSS}</style>
+            <script dangerouslySetInnerHTML={{ __html: AVISA_CARROSSEL }} />
+            <DsCarousel label="Pontos focais das secretarias" itemWidth="17rem" prevLabel="Anteriores" nextLabel="Próximos">
+              {c.focais.map((p) => (
+                <div key={p.nome} className="slide" data-orgao={p.orgao}>
+                  <DsCard heading={p.nome} headingLevel="3" icon={p.icone}>
+                    <DsBadge tone="primary" size="sm">{p.orgao}</DsBadge>
+                    <p>{p.assunto}</p>
+                    <p className="muted email">{p.telefone ?? p.email}</p>
+                    <div slot="footer" className="acoes">
+                      {p.telefone && (
+                        <DsButton href={whatsapp(p.telefone)} target="_blank" rel="noopener" icon="whatsapp" variant="success" fullWidth>
+                          Chamar no WhatsApp
+                        </DsButton>
+                      )}
+                      {p.email && (
+                        <DsButton href={`mailto:${p.email}?cc=${cc}`} icon="mail" variant="secondary" fullWidth>
+                          Enviar e-mail
+                        </DsButton>
+                      )}
+                    </div>
+                  </DsCard>
                 </div>
-              </DsCard>
-            ))}
+              ))}
+            </DsCarousel>
           </div>
         </div>
       </section>
