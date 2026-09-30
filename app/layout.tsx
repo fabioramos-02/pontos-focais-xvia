@@ -5,7 +5,6 @@ import {
   DsAccessibilityBar,
   DsFooter,
   DsHeader,
-  DsIcon,
   DsNavbar,
 } from "@plataforma-xvia/ds-react/server";
 import "./app.css";
@@ -16,6 +15,7 @@ const CRITICAL_CSS = `${DS_TOKENS_CSS}\n${DS_THEMES_CSS}\n${DS_FALLBACK_CSS}`;
 const NAV = JSON.stringify([
   { label: "Início", href: href("/"), icon: "home" },
   { label: "Pedidos de TI", href: href("/#ti"), icon: "mail" },
+  { label: "Acesso de colaborador", href: href("/#acessos"), icon: "id-card" },
   { label: "Pontos focais", href: href("/#focais"), icon: "users" },
 ]);
 
@@ -40,7 +40,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           />
           <DsHeader homeHref={href("/")} homeLabel="Início — Pontos focais XVIA" navItems={NAV}>
             <span slot="brand" className="brand">
-              <DsIcon name="shield" size="xl" />
+              {/* eslint-disable-next-line @next/next/no-img-element -- SVG estático; next/image não otimiza no export do Pages */}
+              <img className="logo" src={href("/brand/ms-gov-br.svg")} alt="Governo de Mato Grosso do Sul" />
+              <span className="brand__divisor" aria-hidden="true" />
               <span>
                 <strong>Projeto X-VIA</strong>
                 <small>SETDIG · Pontos focais</small>
@@ -71,7 +73,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             Guia de contatos do projeto X-VIA.
           </div>
           <span slot="brand">
-            <DsIcon name="shield" size="xl" label="Estado de Mato Grosso do Sul" />
+            {/* eslint-disable-next-line @next/next/no-img-element -- SVG estático; next/image não otimiza no export do Pages */}
+            <img className="logo logo--rodape" src={href("/brand/estado-de-mato-grosso-do-sul.svg")} alt="Estado de Mato Grosso do Sul" />
           </span>
           <span slot="bottom-start">SETDIG | Secretaria-Executiva de Transformação Digital</span>
         </DsFooter>

@@ -62,9 +62,16 @@
     {
       "nome": "Contato 3",
       "orgao": "DETRAN",
-      "icone": "car",
-      "assunto": "Assuntos do DETRAN.",
+      "icone": "building",
+      "assunto": "Infraestrutura do DETRAN.",
       "telefone": "+55 67 90000-0000"
+    },
+    {
+      "nome": "Contato 4",
+      "orgao": "DETRAN",
+      "icone": "car",
+      "assunto": "API do DETRAN.",
+      "email": "contato4@exemplo.com.br"
     }
   ],
   "mattermost": "https://chat.exemplo.ms.gov.br"

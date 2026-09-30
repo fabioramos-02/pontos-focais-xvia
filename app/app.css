@@ -42,6 +42,42 @@
     margin-top: var(--ds-space-5);
   }
 
+  .grid--3 {
+    grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
+  }
+
+  /* ponytail: estica o .card interno do ds-card (sem shadow DOM) para os botões do slot footer alinharem embaixo; revisar se o DS mudar a marcação */
+  .grid > ds-card > .card {
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .acoes {
+    display: grid;
+    gap: var(--ds-space-2);
+    width: 100%;
+  }
+
+  .lista {
+    margin: 0;
+    padding-left: var(--ds-space-5);
+    line-height: var(--ds-text-body-large-line-height);
+  }
+
+  .logo {
+    display: block;
+    height: 2.5rem;
+    width: auto;
+  }
+  .logo--rodape {
+    height: 3.5rem;
+  }
+  .brand__divisor {
+    align-self: stretch;
+    width: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
   .passos {
     margin-top: var(--ds-space-7);
   }

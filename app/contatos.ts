@@ -4,7 +4,8 @@ import { join } from "node:path";
 
 export type Pessoa = { nome: string; email: string };
 export type Fila = { nome: string; icone: string; quando: string; email: string };
-export type Focal = { nome: string; orgao: string; icone: string; assunto: string; telefone: string };
+// ponto focal tem telefone (WhatsApp), e-mail ou os dois
+export type Focal = { nome: string; orgao: string; icone: string; assunto: string; telefone?: string; email?: string };
 export type Contatos = { atualizado: string; observadores: Pessoa[]; filas: Fila[]; focais: Focal[]; mattermost: string };
 
 const real = join(process.cwd(), "data", "contatos.json");
