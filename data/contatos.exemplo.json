@@ -83,11 +83,25 @@
       "icone": "car",
       "assunto": "API do DETRAN.",
       "email": "contato4@exemplo.com.br"
+    },
+    {
+      "nome": "Contato SED 1",
+      "orgao": "SED",
+      "icone": "book",
+      "assunto": "Analista de negócios da Secretaria de Educação.",
+      "telefone": "+55 67 90000-0000"
+    },
+    {
+      "nome": "Contato SED 2",
+      "orgao": "SED",
+      "icone": "book",
+      "assunto": "Assuntos da Secretaria de Educação.",
+      "telefone": "+55 67 90000-0000"
     }
   ],
   "mattermost": "https://chat.exemplo.ms.gov.br",
   "acessos": {
-    "nome": "Pessoa do cadastro",
-    "email": "cadastro@exemplo.ms.gov.br"
+    "nome": "Pessoa da XVIA",
+    "email": "pessoa@exemplo.com.br"
   }
 }

@@ -160,7 +160,7 @@ export default function Pagina() {
             </DsCard>
             <DsCard heading="3. Para quem enviar" headingLevel="3" icon="mail" tone="info">
               <p>
-                Envie tudo para <strong>{c.acessos.nome}</strong>.
+                Envie tudo para <strong>{c.acessos.nome}</strong>, que faz a solicitação para a equipe de cadastro.
               </p>
               <p className="muted email">{c.acessos.email}</p>
               <p>O botão abre o e-mail com a lista pronta para preencher.</p>
