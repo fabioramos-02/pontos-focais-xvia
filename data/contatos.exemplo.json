@@ -118,6 +118,22 @@
       "icone": "book",
       "assunto": "Assuntos da Secretaria de Educação.",
       "telefone": "+55 67 90000-0000"
+    },
+    {
+      "nome": "Contato SEAD 1",
+      "orgao": "SEAD",
+      "icone": "briefcase",
+      "assunto": "Assuntos da Secretaria de Administração.",
+      "telefone": "+55 67 90000-0000",
+      "email": "sead1@exemplo.ms.gov.br"
+    },
+    {
+      "nome": "Contato SEAD 2",
+      "orgao": "SEAD",
+      "icone": "briefcase",
+      "assunto": "Assuntos da Secretaria de Administração.",
+      "telefone": "+55 67 90000-0000",
+      "email": "sead2@exemplo.ms.gov.br"
     }
   ],
   "mattermost": "https://chat.exemplo.ms.gov.br",
